@@ -8,6 +8,7 @@ import { RoutesMap } from './types';
 export function useRouteChains(tokenRoutes: RoutesMap): ChainCaip2Id[] {
   return useMemo(() => {
     const allCaip2Ids = Object.keys(tokenRoutes) as ChainCaip2Id[];
+    console.log({ tokenRoutes });
     const collateralCaip2Ids = getTokens().map((t) => getChainIdFromToken(t.tokenCaip19Id));
     return allCaip2Ids.sort((c1, c2) => {
       // Surface collateral chains first

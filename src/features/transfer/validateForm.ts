@@ -51,10 +51,10 @@ export async function validateFormValues(
   const isNft = isNonFungibleToken(tokenCaip19Id);
 
   const { error: amountError, parsedAmount } = validateAmount(amount, isNft);
-  if (amountError) return amountError;
+  if (amountError && Number(parsedAmount) !== 0) return amountError;
 
   if (isNft) {
-    const balancesError = validateNftBalances(balances, parsedAmount.toString());
+    const balancesError = validateNftBalances(balances, Number(parsedAmount).toString());
     if (balancesError) return balancesError;
   } else {
     const balancesError = await validateTokenBalances({
@@ -139,8 +139,13 @@ function validateAmount(
 
 // Validate balances for ERC721-like tokens
 function validateNftBalances(balances: Balances, nftId: string | number): FormError | null {
-  const { isSenderNftOwner, senderNftIds } = balances;
-  if (isSenderNftOwner === false || (senderNftIds && !senderNftIds.includes(nftId.toString()))) {
+  console.log('balances', balances);
+  const { isSenderNftOwner, senderNftIds, senderTokenBalance } = balances;
+  if (
+    isSenderNftOwner === false ||
+    (senderNftIds && !senderNftIds.includes(nftId.toString())) ||
+    senderTokenBalance === '0'
+  ) {
     return { amount: 'Token ID not owned' };
   }
   return null;
