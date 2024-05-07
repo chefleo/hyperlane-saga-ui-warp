@@ -22,11 +22,11 @@ import { useRouteChains } from '../routes/hooks';
 import { RoutesMap, WarpRoute } from '../routes/types';
 import { getTokenRoute, isIbcOnlyRoute } from '../routes/utils';
 import { useStore } from '../store';
-import { SelectOrInputTokenIds } from '../tokens/SelectOrInputTokenIds';
-import { TokenSelectField } from '../tokens/TokenSelectField';
 import { useIsApproveRequired } from '../tokens/approval';
 import { useDestinationBalance, useOriginBalance } from '../tokens/balances';
 import { getToken } from '../tokens/metadata';
+import { SelectOrInputTokenIds } from '../tokens/SelectOrInputTokenIds';
+import { TokenSelectField } from '../tokens/TokenSelectField';
 import { useAccountAddressForChain, useAccounts } from '../wallet/hooks/multiProtocol';
 
 import { TransferFormValues } from './types';
@@ -42,7 +42,7 @@ export function TransferTokenForm({ tokenRoutes }: { tokenRoutes: RoutesMap }) {
   // Flag for if form is in input vs review mode
   const [isReview, setIsReview] = useState(false);
   // Flag for check current type of token
-  const [isNft, setIsNft] = useState(false);
+  const [isNft, setIsNft] = useState(true);
 
   const { balances, igpQuote } = useStore((state) => ({
     balances: state.balances,
